@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Cell, { CellProps } from '../Cell/Component';
 import { get } from 'lodash';
+import { CellType } from '../Cell/CellType';
 
 interface Minesweeper {
     gameboardMatrix: CellProps[][];
@@ -23,7 +24,7 @@ class Minesweeper extends React.Component<MinesweeperProps, MinesweeperState> {
         };
 
         this.gameboardMatrix = [];
-        const arr = ['E', 'E', 'B'];
+        const arr = [CellType.Empty, CellType.Empty, CellType.Bomb];
 
         for (let row = 0; row < this.props.height; row++) {
             this.gameboardMatrix[row] = [];
@@ -45,42 +46,42 @@ class Minesweeper extends React.Component<MinesweeperProps, MinesweeperState> {
         let count = 0;
 
         // top left
-        if (get(this.gameboardMatrix, [row - 1, column - 1, 'type']) === 'B') {
+        if (get(this.gameboardMatrix, [row - 1, column - 1, 'type']) === CellType.Bomb) {
             count++;
         }
 
         // top
-        if (get(this.gameboardMatrix, [row - 1, column, 'type']) === 'B') {
+        if (get(this.gameboardMatrix, [row - 1, column, 'type']) === CellType.Bomb) {
             count++;
         }
 
         // top right
-        if (get(this.gameboardMatrix, [row - 1, column + 1, 'type']) === 'B') {
+        if (get(this.gameboardMatrix, [row - 1, column + 1, 'type']) === CellType.Bomb) {
             count++;
         }
 
         // left
-        if (get(this.gameboardMatrix, [row, column - 1, 'type']) === 'B') {
+        if (get(this.gameboardMatrix, [row, column - 1, 'type']) === CellType.Bomb) {
             count++;
         }
 
         // right
-        if (get(this.gameboardMatrix, [row, column + 1, 'type']) === 'B') {
+        if (get(this.gameboardMatrix, [row, column + 1, 'type']) === CellType.Bomb) {
             count++;
         }
 
         // bottom left
-        if (get(this.gameboardMatrix, [row + 1, column + 1, 'type']) === 'B') {
+        if (get(this.gameboardMatrix, [row + 1, column + 1, 'type']) === CellType.Bomb) {
             count++;
         }
         
         // bottom
-        if (get(this.gameboardMatrix, [row + 1, column, 'type']) === 'B') {
+        if (get(this.gameboardMatrix, [row + 1, column, 'type']) === CellType.Bomb) {
             count++;
         }
 
         // bottom right
-        if (get(this.gameboardMatrix, [row + 1, column + 1, 'type']) === 'B') {
+        if (get(this.gameboardMatrix, [row + 1, column + 1, 'type']) === CellType.Bomb) {
             count++;
         }
 
@@ -88,7 +89,7 @@ class Minesweeper extends React.Component<MinesweeperProps, MinesweeperState> {
     }
 
     onClickHandler = (row: number, column: number) => {
-        if (this.gameboardMatrix[row][column].type === 'B') {
+        if (this.gameboardMatrix[row][column].type === CellType.Bomb) {
             this.setState({
                 gameState: 'You died'
             });

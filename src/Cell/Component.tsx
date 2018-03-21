@@ -1,12 +1,13 @@
 import * as React from 'react';
 import './styles.css';
+import { CellType } from './CellType';
 
 interface Cell {
     type: string;
 }
 
 export interface CellProps {
-    type: string;
+    type: CellType;
     onClickHandler: (row: number, column: number) => void;
     row: number;
     column: number;
@@ -45,7 +46,7 @@ class Cell extends React.Component<CellProps, CellState> {
     }
 
     getCellValue = () => {
-        if (this.state.hasBeenClicked && this.props.type === 'B') {
+        if (this.state.hasBeenClicked && this.props.type === CellType.Bomb) {
             return 'X';
         }
         
