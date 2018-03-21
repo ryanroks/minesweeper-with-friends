@@ -5,7 +5,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Minesweeper />
+        <Minesweeper width={20} height={20} />
       </div>
     );
   }

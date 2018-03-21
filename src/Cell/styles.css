@@ -4,6 +4,13 @@
     background:rgba(13, 13, 14, 0.05);
     border-right: solid 1px black;
     border-bottom: solid 1px black;
-    display: inline-block;
+    display: inline-flex;
     cursor: pointer;
+    justify-content: center;
+    align-items: center;
+}
+
+.Cell--clicked {
+    cursor: default;
+    background: white;
 }
