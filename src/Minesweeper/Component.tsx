@@ -1,65 +1,46 @@
 import * as React from 'react';
 import Cell from '../Cell/Container';
 import { CellProps } from '../Cell/Component';
-import { CellType } from '../Cell/CellType';
-
-interface Minesweeper {
-
-}
+import { GameState } from './Container';
 
 interface MinesweeperProps {
-    width: number;
-    height: number;
     gameboardMatrix: CellProps[][];
+    gameState: GameState;
 }
 
-interface MinesweeperState {
-    gameState: string;
-}
-
-class Minesweeper extends React.Component<MinesweeperProps, MinesweeperState> {
-    constructor (props: MinesweeperProps) {
-        super(props);
-        this.state = {
-            gameState: 'You are alive'
-        };
-    }
-
-    onClickHandler = (row: number, column: number) => {
-        if (this.props.gameboardMatrix[row][column].type === CellType.Bomb) {
-            this.setState({
-                gameState: 'You died'
-            });
+const Minesweeper: React.SFC<MinesweeperProps> = (props) => {
+    const getGameState = (): string => {
+        switch (props.gameState) {
+            case GameState.Alive:
+                return 'You are still alive';
+            case GameState.Dead:
+                return 'You are dead';
+            default: 
+                return 'Who knows?';
         }
-    }
+    };
 
-    getGameState = () => {
-        return this.state.gameState;
-    }
+    return (
+        <div>
+            <p>{getGameState()}</p>
+            {props.gameboardMatrix.map((cells, rowIndex) => {
+                return cells.map((cell, cellIndex) => {
+                    const cellKey = `${rowIndex}_${cellIndex}`;
 
-    render () {
-        return (
-            <div>
-                <p>{this.getGameState()}</p>
-                {this.props.gameboardMatrix.map((cells, rowIndex) => {
-                    return cells.map((cell, cellIndex) => {
-                        const cellKey = `${rowIndex}_${cellIndex}`;
+                    if (cellIndex === cells.length - 1) {
+                        return (
+                            <span key={cellKey}>
+                                <Cell {...cell} />
+                                <br />
+                            </span>
+                        );
+                    }
 
-                        if (cellIndex === cells.length - 1) {
-                            return (
-                                <span key={cellKey}>
-                                    <Cell {...cell} />
-                                    <br />
-                                </span>
-                            );
-                        }
-
-                        return (<Cell key={cellKey} {...cell} />);
-                    });
-                })}
-            </div>
-        );
-    }
-}
+                    return (<Cell key={cellKey} {...cell} />);
+                });
+            })}
+        </div>
+    );
+};
 
 export default Minesweeper;

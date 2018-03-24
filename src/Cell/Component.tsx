@@ -2,10 +2,6 @@ import * as React from 'react';
 import './styles.css';
 import { CellType } from './CellType';
 
-interface Cell {
-    type: string;
-}
-
 export interface CellProps {
     type: CellType;
     onClickHandler: (row: number, column: number) => void;
@@ -15,49 +11,39 @@ export interface CellProps {
     hasBeenClicked: boolean;
 }
 
-class Cell extends React.Component<CellProps> {
-    constructor (props: CellProps) {
-        super(props);
-    }
+const Cell: React.SFC<CellProps> = (props) => {
+    const onClickHandler = () => {
+        props.onClickHandler(props.row, props.column);
+    };
 
-    onClickHandler = () => {
-        this.setState({
-            hasBeenClicked: true
-        });
-
-        this.props.onClickHandler(this.props.row, this.props.column);
-    }
-
-    getClassNames = () => {
+    const getClassNames = () => {
         let classNames = 'Cell ';
 
-        if (this.props.hasBeenClicked) {
+        if (props.hasBeenClicked) {
             classNames += 'Cell--clicked';
         }
 
         return classNames;
-    }
+    };
 
-    getCellValue = () => {
-        if (this.props.hasBeenClicked && this.props.type === CellType.Bomb) {
+    const getCellValue = () => {
+        if (props.hasBeenClicked && props.type === CellType.Bomb) {
             return 'X';
         }
-        
-        switch (this.props.hasBeenClicked) {
+
+        switch (props.hasBeenClicked) {
             case true:
-                return this.props.neighboringBombs;
+                return props.neighboringBombs;
             default:
                 return '.';
         }
-    }
+    };
 
-    render () {
-        return (
-            <div className={this.getClassNames()} onClick={this.onClickHandler}>
-                {this.getCellValue()}
-            </div>
-        );
-    }
-}
+    return (
+        <div className={getClassNames()} onClick={onClickHandler}>
+            {getCellValue()}
+        </div>
+    );
+};
 
 export default Cell;

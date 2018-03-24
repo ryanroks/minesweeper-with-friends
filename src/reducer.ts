@@ -1,10 +1,17 @@
 import { createGameState } from './helpers';
+import { GameState } from './Minesweeper/Container';
+import { ActionTypes } from './Cell/ActionTypes';
 
-export default (state, action) => {
+const defaultState = {
+    gameState: GameState.Alive,
+    gameBoard: {}
+};
+
+export default (state = defaultState, action) => {
     switch (action.type) {
         case '@@INIT':
             return { ...state, gameBoard: createGameState(10, 10) };
-        case 'CELL_CLICKED':
+        case ActionTypes.CellClicked:
             // this probably mutates state :X
             state.gameBoard[action.row][action.column].hasBeenClicked = true;
             return { ...state };
