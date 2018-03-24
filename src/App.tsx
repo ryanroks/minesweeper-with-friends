@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Minesweeper from './Minesweeper/Component';
+import Minesweeper from './Minesweeper/Container';
 
 class App extends React.Component {
   render() {

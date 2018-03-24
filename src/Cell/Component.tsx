@@ -12,19 +12,12 @@ export interface CellProps {
     row: number;
     column: number;
     neighboringBombs: number;
-}
-
-interface CellState {
     hasBeenClicked: boolean;
 }
 
-class Cell extends React.Component<CellProps, CellState> {
+class Cell extends React.Component<CellProps> {
     constructor (props: CellProps) {
         super(props);
-
-        this.state = {
-            hasBeenClicked: false
-        };
     }
 
     onClickHandler = () => {
@@ -38,7 +31,7 @@ class Cell extends React.Component<CellProps, CellState> {
     getClassNames = () => {
         let classNames = 'Cell ';
 
-        if (this.state.hasBeenClicked) {
+        if (this.props.hasBeenClicked) {
             classNames += 'Cell--clicked';
         }
 
@@ -46,11 +39,11 @@ class Cell extends React.Component<CellProps, CellState> {
     }
 
     getCellValue = () => {
-        if (this.state.hasBeenClicked && this.props.type === CellType.Bomb) {
+        if (this.props.hasBeenClicked && this.props.type === CellType.Bomb) {
             return 'X';
         }
         
-        switch (this.state.hasBeenClicked) {
+        switch (this.props.hasBeenClicked) {
             case true:
                 return this.props.neighboringBombs;
             default:

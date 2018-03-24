@@ -7,8 +7,13 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducer from './reducer';
 
+interface MyWindow extends Window {
+  __REDUX_DEVTOOLS_EXTENSION__: () => undefined;
+}
+
 let store = createStore(
-  reducer
+  reducer,
+  (window as MyWindow).__REDUX_DEVTOOLS_EXTENSION__ && (window as MyWindow).__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 ReactDOM.render(
